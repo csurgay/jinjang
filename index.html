@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Elso project</title>
+    </head>
+    <body style="margin:0; overflow:hidden;">
+        <canvas id="mycanvas"></canvas>
+
+
+<script>
+
+function d2r(d){
+    return d*Math.PI/180;
+}
+
+const canvas=document.getElementById("mycanvas");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+const ctx=canvas.getContext("2d");
+ctx.fillStyle="rgb(240,240,220)";
+ctx.rect(0,0,canvas.width,canvas.height);
+ctx.fill();
+ctx.beginPath();
+[100,80,60,40,20].forEach(i=>{
+    ctx.moveTo(100+i,100);
+    ctx.arc(100, 100, i, 0, d2r(360));
+});
+ctx.stroke();
+ctx.beginPath();
+ctx.arc(100, 100, 10, 0, d2r(360));
+ctx.fillStyle="black";
+ctx.strokeStyle="red";
+ctx.fill();
+ctx.stroke();
+ctx.font="24px Arial";
+ctx.fillText("Céltábla",50,250);
+
+ctx.beginPath();
+[0,20,40,60,80,100,120,140,160,180,200].forEach(i=>{
+    ctx.rect(210,20,i,i);
+});
+ctx.strokeStyle="blue";
+ctx.stroke();
+ctx.beginPath();
+[0,20,40,60,80,100,120,140,160,180,200].forEach(i=>{
+    ctx.rect(410,220,-i,-i);
+});
+ctx.strokeStyle="red";
+ctx.stroke();
+
+ctx.strokeStyle="black";
+var paros=false;
+const d = 30;
+for(let i=0; i<8*d; i+=d) {
+    for(let j=0; j<8*d; j+=d) {
+        ctx.beginPath();
+        ctx.rect(450+i,j,d,d);
+        ctx.stroke();
+        if(paros) ctx.fill();
+        paros=!paros;
+    };
+    paros=!paros;
+};
+
+ctx.beginPath();
+const i=0;
+for(let i=0; i<2000; i+=1) {
+    ctx.arc(300, 400, i/10, d2r(i), d2r((i+1)));
+};
+ctx.strokeStyle="green";
+ctx.stroke();
+
+function jinjang(x, y, r) {
+    ctx.beginPath();
+    ctx.strokeStyle="black";
+    ctx.fillStyle="black";
+    ctx.arc(x, y, r, d2r(-90), d2r(90));
+    ctx.arc(x, y+r/2, r/2, d2r(90), d2r(270));
+    ctx.arc(x, y-r/2, r/2, d2r(90), d2r(270), true);
+    ctx.moveTo(x+r/6, y+r/2);
+    ctx.arc(x, y+r/2, r/6, 0, d2r(360));
+    ctx.moveTo(x+r/6, y-r/2);
+    ctx.arc(x,y-r/2, r/6, 0, d2r(360));
+    ctx.stroke();
+    ctx.fill("evenodd");
+    ctx.beginPath();
+    ctx.arc(x, y, r, d2r(90), d2r(270));
+    ctx.stroke();
+}
+
+function animate() {
+    ctx.beginPath();
+    ctx.fillStyle="rgb(240,240,220)";
+    ctx.arc(0,0,r,0,d2r(360));
+    ctx.fill();
+    ctx.rotate(d2r(1));
+    jinjang(0, 0, r);
+    window.requestAnimationFrame(animate);
+}
+
+var x=canvas.width/2,y=canvas.height/2,r=canvas.width/2;
+ctx.fillStyle="rgb(240,240,220)";
+ctx.rect(0,0,canvas.width,canvas.height);
+ctx.fill();
+ctx.translate(x, y);
+animate();
+
+</script>
+
+
+    </body>
+</html>
